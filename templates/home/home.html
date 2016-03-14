@@ -1,0 +1,459 @@
+<!-- BEGIN: SEARCH SECTION -->
+  <!--  d2 maglalagay ng image background... -->
+   <div class="row" style="background: url('http://abacaticketing.com/frontend/assets/images/1.jpg');background-size: cover;">
+      <div class="container clear-padding">
+         <div class="col-md-8 search-section tran-search-box">
+            <div role="tabpanel">
+               <!-- BEGIN: CATEGORY TAB -->
+               <ul class="nav nav-tabs search-top" role="tablist" id="searchTab">
+                  <li role="presentation" class="active text-center">
+                     <a href="#flight" aria-controls="flight" role="tab" data-toggle="tab">
+                        <i class="fa fa-plane"></i> 
+                        <span>FLIGHTS</SPAN>
+                     </a>
+                  </li>
+                  <li role="presentation" class="text-center">
+                     <a href="#hotel" aria-controls="hotel" role="tab" data-toggle="tab">
+                        <i class="fa fa-bed"></i> 
+                        <span>HOTELS</span>
+                     </a>
+                  </li>
+                  <li role="presentation" class="text-center">
+                     <a href="#holiday" aria-controls="holiday" role="tab" data-toggle="tab">
+                        <i class="fa fa-suitcase"></i>
+                        <span>HOLIDAYS</span>
+                     </a>
+                  </li>
+               </ul>
+               <!-- END: CATEGORY TAB -->
+
+               <!-- BEGIN: TAB PANELS -->
+               <div class="tab-content">
+                     <!-- BEGIN: FLIGHT SEARCH -->
+                     <div role="tabpanel" class="tab-pane active" id="flight" ng-init="booking_flight.trip='roundtrip'">
+                        <form >
+                           <div class="col-md-12 product-search-title">Book Flight Tickets</div>
+
+                           <div class="col-md-12 search-col-padding">
+                              <label class="radio-inline">
+                                 <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="oneway" ng-model="booking_flight.trip"> One Way
+                              </label>
+                              <label class="radio-inline">
+                                 <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="roundtrip" ng-model="booking_flight.trip"> Round Trip
+                              </label>
+                              <label class="radio-inline">
+                                 <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="multicity" ng-model="booking_flight.trip">Multi City
+                              </label>
+                           </div>
+
+                           <div class="clearfix"></div>
+                           <br>
+
+                           <div ng-show="booking_flight.trip !== 'multicity' ">
+                              <div class="col-md-12">
+                                 <select class="form-control" ng-model="booking_flight.type" ng-change="changeflights()" ng-init="booking_flight.type='international'">
+                                    <option value="">Flight Type</option>
+                                    <option value="domestic">Domestic</option>
+                                    <option value="international">International</option>
+                                 </select>
+                              </div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Leaving From</label>
+                               <select class="form-control" ng-model="booking_flight.leaving">
+                                    <option value="">Your Leaving From</option>
+                                    <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                       <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                    </optgroup>
+                              </select>
+                           </div>
+                           <div class="col-md-6  search-col-padding">
+                              <label>Leaving To</label>
+                              <select class="form-control" ng-model="booking_flight.to">
+                                    <option value="">Your Leaving To</option>
+                                    <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                         <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                    </optgroup>
+                              </select>
+                           </div>
+                           <div class="clearfix"></div>
+
+
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Departure</label>
+                              <div class="input-group">
+                                 <input type="text" id="departure_date" name="departure_date" class="form-control departure_date" placeholder="DD/MM/YYYY" ng-model="booking_flight.departure">
+                                 <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                              </div>
+                           </div>
+
+                        <!--    <div class="col-md-12 col-sm-12 search-col-padding" ng-show="booking_flight.trip == 'oneway'">
+                              <label>Departure</label>
+                              <div class="input-group">
+                                 <input type="text" id="departure_date2" name="departure_date" class="form-control departure_date" placeholder="DD/MM/YYYY" ng-model="booking_flight.departure">
+                                 <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                              </div>
+                           </div> -->
+
+                           <div class="col-md-6 col-sm-6 search-col-padding" ng-show="booking_flight.trip == 'roundtrip' ">
+                              <label>Return</label>
+                              <div class="input-group">
+                                 <input type="text" id="return_date" class="form-control return_date" name="return_date" placeholder="DD/MM/YYYY" ng-model="booking_flight.return" disabled="disable">
+                                 <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                              </div>
+                           </div>
+
+                           <div class="clearfix"></div>
+
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Adult</label><br>
+                              <select class="form-control" ng-model="booking_flight.adult">
+                                 <option value="">12+ Years Old</option>
+                                 <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Child</label><br>
+                              <select class="form-control" ng-model="booking_flight.child">
+                                 <option value="">Below 12 Years Old</option>
+                                 <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+                           
+                     </div>
+
+
+                        <div ng-show="booking_flight.trip == 'multicity' ">
+
+                               <div class="col-md-12">
+                                 <select class="form-control" ng-model="booking_flight.type" ng-change="changeflights()">
+                                    <option value="">Flight Type</option>
+                                    <option value="domestic">Domestic</option>
+                                    <option value="international">International</option>
+                                 </select>
+                              </div>
+
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Leaving From - 1</label>
+                                  <select class="form-control" ng-model="booking_flight.leaving">
+                                       <option value="">Your Leaving From</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                          <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-6  search-col-padding">
+                                 <label>Leaving To - 1</label>
+                                 <select class="form-control" ng-model="booking_flight.to">
+                                       <option value="">Your Leaving To</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                            <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+                              <div class="clearfix"></div>
+
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Leaving From - 2</label>
+                                  <select class="form-control" ng-model="booking_flight.leaving2">
+                                       <option value="">Your Leaving From</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                          <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+
+                               <div class="col-md-6  search-col-padding">
+                                 <label>Leaving To - 2</label>
+                                 <select class="form-control" ng-model="booking_flight.to2">
+                                       <option value="">Your Leaving To</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                            <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+
+
+                              <div class="clearfix"></div>
+
+
+                               <div class="col-md-6 col-sm-6 search-col-padding" >
+                                 <label>Departure</label>
+                                 <div class="input-group">
+                                    <input type="text" id="departure_date" name="departure_date" class="form-control departure_date" placeholder="DD/MM/YYYY" ng-model="departure.date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Return</label>
+                                 <div class="input-group">
+                                    <input type="text" id="" class="form-control return_date" name="return_date" placeholder="DD/MM/YYYY" ng-model="booking_flight.return" disabled="disable">
+                                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Adult</label><br>
+                                 <select class="form-control" ng-model="booking_flight.adult">
+                                    <option value="">12+ Years Old</option>
+                                    <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Child</label><br>
+                                 <select class="form-control" ng-model="booking_flight.child">
+                                    <option value="">Below 12 Years Old</option>
+                                    <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                                 </select>
+                              </div>
+
+                           </div>
+
+                           <div class="clearfix"></div>
+                           <div class="col-md-12 search-col-padding">
+                              <button type="submit" class="search-button btn transition-effect" ng-click="booknow();">Search Flights</button>
+                               <button type="submit" class="search-button btn transition-effect" ng-click="clearbook()">Cancel</button>
+                           </div>
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <!-- END: FLIGHT SEARCH -->
+                     
+                     <!-- START: HOTEL SEARCH -->
+                     <div role="tabpanel" class="tab-pane" id="hotel">
+                        <form >
+                           <div class="col-md-12 product-search-title">Book Hotel Rooms</div>
+                           <div class="col-md-12 search-col-padding">
+                              <label>I Want To Go</label>
+                               <select class="form-control" ng-model="booking_hotel.go">
+                                 <option value="">Select Places</option>
+                                 <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                      <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                 </optgroup>
+                              </select>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Check - In</label>
+                              <div class="input-group">
+                                 <input type="text" name="check-in" id="check_in" class="form-control check_in" placeholder="DD/MM/YYYY" ng-model="booking_hotel.check_in">
+                                 <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                              </div>
+                           </div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Check - Out</label>
+                              <div class="input-group">
+                                 <input type="text" name="check-out" id="check_out" class="form-control check_out" placeholder="DD/MM/YYYY" ng-model="booking_hotel.check_out" disabled="disable">
+                                 <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-md-3 col-sm-3 search-col-padding">
+                              <label>Adult</label><br>
+                              <select class="form-control" ng-model="booking_hotel.adult">
+                                    <option value="">12+ Years Old</option>
+                                    <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+                           <div class="col-md-3 col-sm-3 search-col-padding">
+                              <label>Child</label><br>
+                              <select class="form-control" ng-model="booking_hotel.child">
+                                    <option value="">Below 12 Years Old</option>
+                                    <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+                           <div class="col-md-3 col-sm-3 search-col-padding">
+                              <label>Rooms</label><br>
+                               <select class="form-control" ng-model="booking_hotel.rooms">
+                                    <option value="">How Many Rooms</option>
+                                    <option ng-repeat="n in [] | range:10" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+                           <div class="col-md-3 col-sm-3 search-col-padding">
+                              <label>Nights</label><br>
+                             <select class="form-control" ng-model="booking_hotel.nights">
+                                    <option value="">How Many Nights</option>
+                                    <option ng-repeat="n in [] | range:10" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                             </select>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-md-12 search-col-padding">
+                              <button type="submit" class="search-button btn transition-effect" ng-click="booknow()">Book Now</button>
+                              <button type="submit" class="search-button btn transition-effect" ng-click="clearbook()">Cancel</button>
+                           </div>
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <!-- END: HOTEL SEARCH -->
+                        
+                     <!-- START: BEGIN HOLIDAY -->
+                     <div role="tabpanel" class="tab-pane" id="holiday">
+                        <form >
+                           <div class="col-md-12 product-search-title">Book Holiday Packages</div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>From</label>
+                              <select class="form-control" ng-model="booking_holiday.from">
+                                 <option value="">Select Places</option>
+                                 <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                      <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                 </optgroup>
+                              </select>
+                           </div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>I Want To Go</label>
+                               <select class="form-control" ng-model="booking_holiday.go">
+                                 <option value="">Select Places</option>
+                                 <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                      <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                 </optgroup>
+                              </select>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Starting From</label>
+                              <div class="input-group">
+                                 <input type="text" id="package_start" class="form-control" placeholder="DD/MM/YYYY" ng-model="booking_holiday.date_from">
+                                 <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                              </div>
+                           </div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Duration</label><br>
+                              <select class="form-control" name="holiday_duration" ng-model="booking_holiday.duration">
+                                 <option value="3days" checked>3 Days</option>
+                                 <option value="5days">5 Days</option>
+                                 <option value="1week">1 Week</option>
+                                 <option value="2weeks">2 Weeks</option>
+                                 <option value="1month">1 Month</option>
+                                 <option value="1+ month">1+ Month</option>
+                              </select>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Package Type</label><br>
+                              <select class="form-control" name="package_type" ng-model="booking_holiday.type">
+                                 <option value="Group" checked>Group</option>
+                                 <option value="Family">Family</option>
+                                 <option value="Individual">Individual</option>
+                                 <option value="Honeymoon">Honeymoon</option>
+                              </select>
+                           </div>
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Budget</label><br>
+                              <select class="form-control" name="package_budget" ng-model="booking_holiday.budget">
+                                 <option value="500" checked>500</option>
+                                 <option value="1000">1000</option>
+                                 <option value="1000+">1000+</option>
+                              </select>
+                           </div>
+                            <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Adult</label><br>
+                              <select class="form-control" ng-model="booking_holiday.adult">
+                                 <option value="">12+ Years Old</option>
+                                 <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+
+                           <div class="col-md-6 col-sm-6 search-col-padding">
+                              <label>Child</label><br>
+                              <select class="form-control" ng-model="booking_holiday.child">
+                                 <option value="">Below 12 Years Old</option>
+                                 <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                              </select>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-md-12 search-col-padding">
+                              <button type="submit" class="search-button btn transition-effect" ng-click="booknow()">Book Now</button>
+                              <button type="submit" class="search-button btn transition-effect" ng-click="clearbook()">Cancel</button>
+                           </div>
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <!-- END: HOLIDAYS -->
+                  </div>
+                  <!-- END: TAB PANE -->
+            </div>
+         </div>
+         <div class="offer-slider">
+            <div class="owl-carousel col-md-4 text-right" id="offer1">
+                     
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- END: SEARCH SECTION -->
+
+<toaster-container></toaster-container>
+
+<script type="text/javascript">
+  $(function() {
+      "use strict";
+      new WOW().init();
+
+      // $( "#departure_date" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      // $( "#departure_date2" ).datepicker({ minDate: -0, maxDate: "+3M" });
+
+       $( ".departure_date" ).datepicker({
+         //changeMonth: true,//this option for allowing user to select month
+         //changeYear: true //this option for allowing user to select from year range
+         minDate: new Date(),
+         onSelect : function(selected_date){
+           var selectedDate = new Date(selected_date);
+           var msecsInADay = 86400000;
+           var endDate = new Date(selectedDate.getTime() + msecsInADay);
+            $('.return_date').removeAttr('disabled');
+            $(".return_date").datepicker("option", "minDate", endDate );
+         }
+       });
+
+
+       $( ".check_in" ).datepicker({
+         //changeMonth: true,//this option for allowing user to select month
+         //changeYear: true //this option for allowing user to select from year range
+         minDate: new Date(),
+         onSelect : function(selected_date){
+           var selectedDate = new Date(selected_date);
+           var msecsInADay = 86400000;
+           var endDate = new Date(selectedDate.getTime() + msecsInADay);
+            $('.check_out').removeAttr('disabled');
+            $(".check_out").datepicker("option", "minDate", endDate );
+         }
+       });
+
+
+      // $( "#return_date" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( ".birthday" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( "#check_out" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( "#check_in" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( "#package_start" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( "#car_start" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( "#car_end" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( "#cruise_start" ).datepicker({ minDate: -0, maxDate: "+3M" });
+
+
+      $( ".return_date" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( ".departure_date" ).datepicker({ minDate: -0, maxDate: "+3M" });
+
+
+      $( "#adult_count" ).spinner({
+         min: 1
+      });
+      $( "#child_count" ).spinner( {
+         min: 1
+      });
+      $( "#hotel_adult_count" ).spinner( {
+         min: 1
+      });
+      $( "#hotel_child_count" ).spinner( {
+         min: 1
+      });
+      $('.selectpicker').selectpicker({
+         style: 'custom-select-button'
+      });
+
+   });
+</script>

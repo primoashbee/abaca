@@ -1,0 +1,90 @@
+     <div ng-show="booking_flight.trip == 'multicity' ">
+
+                               <div class="col-md-12">
+                                 <select class="form-control" ng-model="booking_flight.type" ng-change="changeflights()">
+                                    <option value="">Flight Type</option>
+                                    <option value="domestic">Domestic</option>
+                                    <option value="international">International</option>
+                                 </select>
+                              </div>
+
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Leaving From - 1</label>
+                                  <select class="form-control" ng-model="booking_flight.leaving">
+                                       <option value="">Your Leaving From</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                          <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-6  search-col-padding">
+                                 <label>Leaving To - 1</label>
+                                 <select class="form-control" ng-model="booking_flight.to">
+                                       <option value="">Your Leaving To</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                            <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+                              <div class="clearfix"></div>
+
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Leaving From - 2</label>
+                                  <select class="form-control" ng-model="booking_flight.leaving2">
+                                       <option value="">Your Leaving From</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                          <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+
+                               <div class="col-md-6  search-col-padding">
+                                 <label>Leaving To - 2</label>
+                                 <select class="form-control" ng-model="booking_flight.to2">
+                                       <option value="">Your Leaving To</option>
+                                       <optgroup ng-repeat="(k, value) in flights" label="{{ k }}" style="text-transform:capitalize;">
+                                            <option ng-repeat="f in value.stations" value="{{ f.StationCode }}">{{ f.StationName }}</option>
+                                       </optgroup>
+                                 </select>
+                              </div>
+
+
+                              <div class="clearfix"></div>
+
+
+                               <div class="col-md-6 col-sm-6 search-col-padding" >
+                                 <label>Departure</label>
+                                 <div class="input-group">
+                                    <input type="text" id="departure_date" name="departure_date" class="form-control departure_date" placeholder="DD/MM/YYYY" ng-model="departure.date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Return</label>
+                                 <div class="input-group">
+                                    <input type="text" id="" class="form-control return_date" name="return_date" placeholder="DD/MM/YYYY" ng-model="booking_flight.return" disabled="disable">
+                                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Adult</label><br>
+                                 <select class="form-control" ng-model="booking_flight.adult">
+                                    <option value="">12+ Years Old</option>
+                                    <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-6 col-sm-6 search-col-padding">
+                                 <label>Child</label><br>
+                                 <select class="form-control" ng-model="booking_flight.child">
+                                    <option value="">Below 12 Years Old</option>
+                                    <option ng-repeat="n in [] | range:20" value="{{ $index + 1 }}">{{ $index + 1}}</option>
+                                 </select>
+                              </div>
+
+                           </div>

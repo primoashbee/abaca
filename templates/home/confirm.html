@@ -1,0 +1,298 @@
+<!-- START: USER PROFILE -->
+<style type="text/css">
+	.submit-btn{
+		height: 40px;
+	    border: none;
+	    background: #46bc5b;
+	    color: #fff;
+	    width: 10%;
+	    font-weight: bold;
+	}
+</style>
+	<form name="userForm" novalidate ng-submit="submit()">
+	<div class="row user-profile">
+		<div class="container">
+			<div class="col-md-12 user-name">
+				<h3>Welcome to ABACA Ticketing</h3>
+			</div>
+			<div class="col-md-12 col-sm-10">
+
+
+				<div class="tab-content" ng-if="details.holiday">
+					<div id="profile" class="tab-pane fade in active">
+						<div class="col-md-12">
+							<div class="user-preference">
+								<h4 data-toggle="collapse" data-target="#flight-preference" aria-expanded="false" aria-controls="flight-preference">
+										<i class="fa fa-plane"></i> Holiday<span class="pull-right"><i class="fa fa-chevron-down"></i></span>
+								</h4>
+								<div class="collapse in" id="flight-preference">
+									<table class="table" style="font-size:12px;">
+										<tr>
+											<th>Type</th>
+											<th>Date From</th>
+											<th>Go</th>
+											<th>Duration</th>
+											<th>Budget</th>
+										</tr>
+
+										<tbody>
+											<tr>
+												<td>{{details.type}}</td>
+												<td>{{details.date_from}}</td>
+												<td>{{details.go}}</td>
+												<td>{{details.duration}}</td>
+												<td>{{details.budget}}</td>
+											</tr>
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-content" ng-if="!details.holiday">
+					<div id="profile" class="tab-pane fade in active">
+						<div class="col-md-12">
+							<div class="user-preference">
+								<h4 data-toggle="collapse" data-target="#flight-preference" aria-expanded="false" aria-controls="flight-preference">
+										<i class="fa fa-plane"></i> Passengers<span class="pull-right"><i class="fa fa-chevron-down"></i></span>
+								</h4>
+								<div class="collapse in" id="flight-preference">
+									<table class="table passengers" style="font-size:12px;">
+
+										<tbody>
+												<tr ng-repeat="a in adultFrm track by $index">
+													<td>{{ "Adult" + ($index + 1)}}</td>
+													<td><input type="text" class="form-control" placeholder="Fistname" style="height:15px;" ng-model="a.firstname" required name="firstname"></td>
+													<td><input type="text" class="form-control" placeholder="Lastname" style="height:15px;" ng-model="a.lastname" required name="lastname"></td>
+													<td><input type="date" class="form-control birthday" placeholder="Birthday" style="height:15px;" ng-model="a.birthday" required name="birthday"></td>
+													<td><input type="text" class="form-control" placeholder="Gender" style="height:15px;" ng-model="a.gender" required name="gender"></td>
+													<td><input type="text" class="form-control" placeholder="Passport #" style="height:15px;" ng-model="a.passport" required name="passport_number"></td>
+													<td><input type="date" class="form-control" placeholder="Passport Expiration" style="height:15px;" ng-model="a.passport_expiration" required name="passport_expiration"></td>
+
+												</tr>
+
+												<tr ng-repeat="b in childFrm track by $index">
+													<td>{{ "Child" + ($index + 1) }}</td>
+													<td><input type="text" class="form-control" placeholder="Fistname" style="height:10px;" ng-model="b.firstname" required name="firstname"></td>
+													<td><input type="text" class="form-control" placeholder="Lastname" style="height:10px;" ng-model="b.lastname" required name="lastname"></td>
+													<td><input type="date" class="form-control birthday" placeholder="Birthday" style="height:10px;" ng-model="b.birthday" required name="birthday"></td>
+													<td><input type="text" class="form-control" placeholder="Gender" style="height:15px;" ng-model="b.gender" required name="gender"></td>
+													<td><input type="text" class="form-control" placeholder="Passport #" style="height:15px;" ng-model="b.passport" required name="passport_number"></td>
+													<td><input type="date" class="form-control" placeholder="Passport Expiration" style="height:15px;" ng-model="b.passport_expiration" required name="passport_expiration"></td>
+												</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="user-preference" ng-if="details.flight">
+								<h4 data-toggle="collapse" data-target="#flight-preference" aria-expanded="false" aria-controls="flight-preference">
+										<i class="fa fa-plane"></i> Flight Preference <span class="pull-right"><i class="fa fa-chevron-down"></i></span>
+								</h4>
+								<div class="collapse in" id="flight-preference">
+									<table class="table" style="font-size:12px;" ng-if="details.trip !== 'multicity'">
+										<tr>
+											<th>Type</th>
+											<th ng-if="details.trip == 'oneway' ">One Way</th>
+											<th ng-if="details.trip =='roundtrip' ">Round Trip</th>
+											<th>Leaving</th>
+											<th>To</th>
+											<th>Departure</th>
+											<th ng-show="details.return">Return</th>
+											<th>Adult</th>
+											<th ng-if="details.child">Child</th>
+										</tr>
+
+										<tbody>
+												<tr>
+													<td style="text-transform:capitalize;">{{ details.type}}</td>
+													<td style="text-transform:capitalize;">{{ details.trip }}</td>
+													<td>{{ details.leaving}}</td>
+													<td>{{ details.to }}</td>
+													<td>{{ details.departure}}</td>
+													<td ng-show="details.return">{{ details.return}}</td>
+													<td>{{ details.adult }}</td>
+													<td>{{ details.child }}</td>
+												</tr>
+										</tbody>
+									</table>
+
+
+									<table class="table" style="font-size:12px;" ng-if="details.trip == 'multicity'">
+										<tr>
+											<th>Type</th>
+											<th>Multicity</th>
+											<th>From</th>
+											<th>To</th>
+											<th>Departure</th>
+											<th>Return</th>
+											<th>Adult</th>
+											<th>Child</th>
+										</tr>
+
+										<tbody>
+												<tr>
+													<td>{{ details.type}}</td>
+													<td>{{ details.trip}}</td>
+													<td>{{ details.leaving  +' & '+ details.leaving2 }}</td>
+													<td>{{ details.to +' & '+ details.to2 }}</td>
+													<td>{{ details.departure}}</td>
+													<td>{{ details.return }}</td>
+													<td>{{ details.adult}}</td>
+													<td>{{ details.child }}</td>
+												</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="user-preference" ng-if="details.hotel">
+								<h4 data-toggle="collapse" data-target="#flight-preference" aria-expanded="false" aria-controls="flight-preference">
+										<i class="fa fa-plane"></i> Hotel Preference <span class="pull-right"><i class="fa fa-chevron-down"></i></span>
+								</h4>
+								<div class="collapse in" id="flight-preference">
+									<table class="table" style="font-size:12px;">
+											<tr>
+												<th>Check In</th>
+												<th>Check Out</th>
+												<th>Go</th>
+												<th>Nights</th>
+												<th>Rooms</th>
+												<th>Adult</th>
+												<th>Child</th>
+											</tr>
+
+											<tbody>
+												<tr>
+													<td>{{ details.check_in}}</td>
+													<td>{{ details.check_out}}</td>
+													<td>{{ details.go}}</td>
+													<td>{{ details.nights}}</td>
+													<td>{{ details.rooms}}</td>
+													<td>{{ details.adult}}</td>
+													<td>{{ details.child}}</td>
+												</tr>
+											</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12" ng-if="!details.holiday">
+							<div class="user-preference" style="margin:10px 0px;">
+								<h4 data-toggle="collapse" data-target="#flight-preference" aria-expanded="false" aria-controls="flight-preference">
+										<i class="fa fa-user"></i> Personal Info<span class="pull-right"><i class="fa fa-chevron-down"></i></span>
+					
+								</h4>
+								<div class="collapse in" id="">
+										<div class="user-info-body">
+												<div class="col-md-4">
+													<label>First Name</label>
+													<input type="text" name="b_firstname" placeholder="First Name" class="form-control" ng-model="details.booker.firstname">
+												</div>
+												<div class="col-md-4">
+													<label>Last Name</label>
+													<input type="text" name="b_lastname" placeholder="Last Name" class="form-control" ng-model="details.booker.lastname">
+												</div>
+												<!-- <div class="clearfix"></div> -->
+												<div class="col-md-4">
+													<label>Email</label>
+													<input type="email" name="b_email" placeholder="abacaticketing@gmail.com" class="form-control" ng-model="details.booker.email">
+												</div>
+												<div class="col-md-4">
+													<label>Contact Number</label>
+													<input type="number" name="b_contact"  class="form-control" ng-model="details.booker.contact_number" placeholder="+639191234567">
+												</div>
+												<div class="col-md-4">
+													<label>Date Of Birth</label>
+													<input type="date" name="b_birthday" class="form-control" ng-model="details.booker.birthday" placeholder="1/1/1900"> 
+												</div>
+												<div class="col-md-4">
+													<label>Passport Number</label>
+													<input type="text" name="passport_number" class="form-control" ng-model="details.booker.passport_number" placeholder="Passport Number"> 
+												</div>
+												<div class="col-md-4">
+													<label>Passport Expiration</label>
+													<input type="date" name="passport_expiration2" class="form-control" ng-model="details.booker.passport_expiration" placeholder="1/1/1900"> 
+												</div>
+												<div class="col-md-8">
+													<label>Current Address</label>
+													<textarea placeholder="Your Current Address" id="current-address" class="form-control" rows="5" ng-model="details.booker.address" name="address"></textarea>
+												</div>	
+												<div class="clearfix"></div>
+										</div>
+								</div>
+							</div>
+						</div>
+					
+
+						<div class="col-md-6" ng-if="details.holiday">
+							<div class="user-preference" style="margin:10px 0px;">
+								<h4 data-toggle="collapse" data-target="#flight-preference" aria-expanded="false" aria-controls="flight-preference">
+										<i class="fa fa-user"></i> Personal Info<span class="pull-right"><i class="fa fa-chevron-down"></i></span>
+								</h4>
+								<div class="collapse in" id="">
+										<div class="user-info-body">
+												<div class="col-md-4">
+													<label>First Name</label>
+													<input type="text" name="b_firstname" placeholder="First Name" class="form-control" ng-model="details.booker.firstname">
+												</div>
+												<div class="col-md-4">
+													<label>Last Name</label>
+													<input type="text" name="b_lastname" placeholder="Last Name" class="form-control" ng-model="details.booker.lastname">
+												</div>
+												<!-- <div class="clearfix"></div> -->
+												<div class="col-md-4">
+													<label>Email</label>
+													<input type="email" name="b_email" placeholder="abacaticketing@gmail.com" class="form-control" ng-model="details.booker.email">
+												</div>
+												<div class="col-md-4">
+													<label>Contact Number</label>
+													<input type="number" name="b_contact"  class="form-control" ng-model="details.booker.contact_number" placeholder="+639191234567">
+												</div>
+												<div class="col-md-4">
+													<label>Date Of Birth</label>
+													<input type="date" name="b_birthday" class="form-control" ng-model="details.booker.birthday" placeholder="1/1/1900"> 
+												</div>
+												<div class="col-md-4">
+													<label>Passport Number</label>
+													<input type="text" name="passport_number" class="form-control" ng-model="details.booker.passport_number" placeholder="Passport Number"> 
+												</div>
+												<div class="col-md-4">
+													<label>Passport Expiration</label>
+													<input type="date" name="passport_expiration2" class="form-control" ng-model="details.booker.passport_expiration" placeholder="1/1/1900"> 
+												</div>
+												<div class="col-md-8">
+													<label>Current Address</label>
+													<textarea placeholder="Your Current Address" id="current-address" class="form-control" rows="5" ng-model="details.booker.address" name="address"></textarea>
+												</div>
+												<div class="clearfix"></div>
+										</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="margin-right:30px;">
+			<button ng-disabled="userForm.$invalid" class="pull-right btn submit-btn" type="submit">SUBMIT</button> &nbsp; &nbsp; &nbsp;<button class="pull-right btn submit-btn" ng-click="cancel()" style="margin-right:5px;">Back</button>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+	$(function() {
+      "use strict";
+      new WOW().init();
+      // $( "#return_date" ).datepicker({ minDate: -0, maxDate: "+3M" });
+      $( ".birthday" ).datepicker({ minDate: -0, maxDate: "+3M" });
+
+   });
+</script>
+
+	<!-- END: USER PROFILE
